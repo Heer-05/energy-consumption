@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{# 
+   Override potentially existing blocks in base.html to prevent duplicates.
+#}
+{% block hero %}{% endblock %}
+{% block banner %}{% endblock %}
+{% block header %}{% endblock %}
+{% block jumbotron %}{% endblock %}
+
+{% block content %}
+
+<style>
+    /* 1. HIDE ORIGINAL BANNER & FORCE NEW ONE */
+    .hero-section { display: none !important; }
+    div[style*="linear-gradient(90deg,#0ea5e9,#2563eb)"] { display: none !important; }
+    #new-hero-banner { display: block !important; }
+
+    /* 2. FULL WIDTH BREAKOUT 
+       This forces the background to span the full viewport width.
+    */
+    .full-width-breakout {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+
+    /* Slider Styling */
+    input[type=range].custom-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 5px;
+        background: #dee2e6;
+        outline: none;
+        margin-top: 0.5rem;
+    }
+
+    input[type=range].custom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #0d6efd;
+        cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 0 2px rgba(0,0,0,0.5);
+        margin-top: -6px;
+    }
+    
+    input[type=range].custom-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #0d6efd;
+        cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+</style>
+
+<div class="full-width-breakout">
+
+    <!-- HERO BANNER (Full Width)
+    <div id="new-hero-banner" class="text-center text-white py-5 mb-0" 
+         style="background: linear-gradient(90deg,#0ea5e9,#2563eb);">
+        <div class="container">
+            <h1 class="fw-bold display-5">Practical Energy Forecast & Guidance</h1>
+            <p class="mt-2 fs-5">Simulate energy usage, experiment with what-if conditions, and reduce your bill.</p>
+        </div>
+    </div> -->
+
+    <!-- MAIN CONTENT (White Background) -->
+    <div class="bg-white py-5">
+        
+        <!-- 
+             UPDATED: Used 'container-fluid' for full width.
+             Added 'px-4 px-md-5' (padding) so it doesn't touch the very edge of the screen.
+        -->
+        <div class="container-fluid px-4 px-md-5">
+            
+            <div class="mb-4">
+                <h2 class="fw-bold mb-2">🔮 Predict — Next-step Power Demand</h2>
+                <p class="text-muted">
+                    Upload a CSV with at least 30 rows and these columns:
+                    <span class="text-danger fw-bold">Power demand, temp, dwpt, rhum, wdir, wspd, pres</span>.
+                </p>
+                {% if error_message %}
+                    <div class="alert alert-danger">{{ error_message }}</div>
+                {% endif %}
+            </div>
+
+            <div class="p-0">
+                <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- Step 1 -->
+                    <div class="mb-5">
+                        <h4 class="fw-bold border-bottom pb-2">Step 1: Upload Historical CSV</h4>
+                        <p class="text-muted">Upload the CSV containing historical 5-minute data.</p>
+                        <input type="file" class="form-control form-control-lg" name="csv_file" accept=".csv" required>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="mb-5">
+                        <h4 class="fw-bold border-bottom pb-2">Step 2: Adjust Environmental Factors</h4>
+                        
+                        <div class="row g-4 mt-2">
+                            
+                            <!-- Temperature -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Avg Temp (°C)</span>
+                                    <span id="val_temp" class="text-primary">{{ defaults.temp }}</span>
+                                </label>
+                                <input type="range" step="0.1" min="-20" max="50" name="temp" id="temp"
+                                       class="custom-slider" value="{{ defaults.temp }}" oninput="updateSlider(this)">
+                            </div>
+
+                            <!-- Dew Point -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Dew Point (°C)</span>
+                                    <span id="val_dwpt" class="text-primary">{{ defaults.dwpt }}</span>
+                                </label>
+                                <input type="range" step="0.1" min="-20" max="50" name="dwpt" id="dwpt"
+                                       class="custom-slider" value="{{ defaults.dwpt }}" oninput="updateSlider(this)">
+                            </div>
+
+                            <!-- Humidity -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Humidity (%)</span>
+                                    <span id="val_rhum" class="text-primary">{{ defaults.rhum }}</span>
+                                </label>
+                                <input type="range" step="1" min="0" max="100" name="rhum" id="rhum"
+                                       class="custom-slider" value="{{ defaults.rhum }}" oninput="updateSlider(this)">
+                            </div>
+
+                            <!-- Wind Direction -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Wind Direction (°)</span>
+                                    <span id="val_wdir" class="text-primary">{{ defaults.wdir }}</span>
+                                </label>
+                                <input type="range" step="1" min="0" max="360" name="wdir" id="wdir"
+                                       class="custom-slider" value="{{ defaults.wdir }}" oninput="updateSlider(this)">
+                            </div>
+
+                            <!-- Wind Speed -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Wind Speed (km/h)</span>
+                                    <span id="val_wspd" class="text-primary">{{ defaults.wspd }}</span>
+                                </label>
+                                <input type="range" step="0.1" min="0" max="100" name="wspd" id="wspd"
+                                       class="custom-slider" value="{{ defaults.wspd }}" oninput="updateSlider(this)">
+                            </div>
+
+                            <!-- Pressure -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold d-flex justify-content-between">
+                                    <span>Pressure (hPa)</span>
+                                    <span id="val_pres" class="text-primary">{{ defaults.pres }}</span>
+                                </label>
+                                <input type="range" step="0.1" min="950" max="1050" name="pres" id="pres"
+                                       class="custom-slider" value="{{ defaults.pres }}" oninput="updateSlider(this)">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold fs-5">Predict Demand</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS SECTION -->
+    {% if prediction is not none %}
+    <div class="py-5 bg-light border-top">
+        <!-- Using container-fluid here as well -->
+        <div class="container-fluid px-4 px-md-5">
+            <h3 class="fw-bold mb-4">📊 Prediction Results</h3>
+            <div class="card p-4 mb-4 bg-white rounded-3 shadow-sm border-0">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center border-end">
+                        <p class="text-muted mb-1">Predicted Power Demand</p>
+                        <div class="display-4 fw-bold text-primary">
+                            {{ '%.2f'|format(prediction) }} <span class="fs-4 text-muted">kW</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h5 class="fw-bold">Power Trend</h5>
+                        <div style="height: 300px;">
+                            <canvas id="powerChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- JS Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function updateSlider(slider) {
+        const id = slider.id;
+        const display = document.getElementById('val_' + id);
+        if(display) display.innerText = slider.value;
+        
+        const min = parseFloat(slider.min) || 0;
+        const max = parseFloat(slider.max) || 100;
+        const val = parseFloat(slider.value);
+        const percentage = ((val - min) / (max - min)) * 100;
+        
+        slider.style.background = `linear-gradient(to right, #0d6efd ${percentage}%, #dee2e6 ${percentage}%)`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Init sliders
+        document.querySelectorAll('.custom-slider').forEach(updateSlider);
+
+        // Fix duplicate headers from base.html
+        const allHeaders = document.querySelectorAll('h1');
+        allHeaders.forEach(h1 => {
+            if (h1.innerText.includes("Practical Energy Forecast") && !h1.closest('#new-hero-banner')) {
+                const parentContainer = h1.closest('div[style*="gradient"]') || h1.closest('.hero-section') || h1.parentElement;
+                if(parentContainer) parentContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% if prediction is not none %}
+<script>
+    const chartData = {{ chart_data | tojson | safe }};
+    const labels = chartData.map(row => row.minute);
+    const values = chartData.map(row => row.power);
+
+    new Chart(document.getElementById("powerChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Power Demand (kW)",
+                data: values,
+                borderWidth: 2,
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37,99,235,0.1)",
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3,
+                pointBackgroundColor: "#ef4444"
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            scales: {
+                x: { grid: { display: false }, title: { display: true, text: "Time Steps" } },
+                y: { title: { display: true, text: "Power (kW)" } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>
+{% endif %}
+
+{% endblock %}

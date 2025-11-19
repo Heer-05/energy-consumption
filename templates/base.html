@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Pulse AI{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bg-page: #eef3fb;
+            --bg-hero-1: #0ea5e9;
+            --bg-hero-2: #2563eb;
+            --text-muted: #6b7280;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-page);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        /* NAVBAR */
+        .navbar-custom {
+            background: linear-gradient(90deg, #004cff, #070268);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: .03em;
+        }
+        .nav-link {
+            font-weight: 500;
+            padding-inline: 1rem !important;
+        }
+        .nav-link.active {
+            background-color: rgba(255,255,255,0.12);
+            border-radius: 999px;
+        }
+
+        /* HERO BANNER (top of each page) */
+        .hero-bar {
+            width: 100%;
+            background: radial-gradient(circle at 0% 0%, #22c1c3 0, #1d4ed8 40%, #0b1120 100%);
+            color: #fff;
+            padding: 22px 3vw;
+            box-shadow: 0 18px 40px rgba(15,23,42,0.45);
+        }
+        .hero-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem 2.5rem;
+            justify-content: space-between;
+        }
+        .hero-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+            font-weight: 800;
+            margin-bottom: .1rem;
+        }
+        .hero-subtitle {
+            font-size: .95rem;
+            opacity: .9;
+        }
+
+        .hero-pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.35);
+            border: 1px solid rgba(148, 163, 184, .5);
+            font-size: .78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+        }
+
+        /* PAGE WRAPPER – full width but with soft side padding */
+        .page-wrapper {
+            width: 100%;
+            padding: 24px 3vw 40px 3vw;
+        }
+
+        /* CARD STYLE */
+        .pulse-card {
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+            background: #ffffff;
+        }
+
+        .pulse-card-header {
+            padding: 18px 20px 10px 20px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.26);
+        }
+
+        .pulse-card-body {
+            padding: 18px 20px 20px 20px;
+        }
+
+        .pill-label {
+            font-size: .78rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text-muted);
+        }
+
+        .muted {
+            color: var(--text-muted);
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- NAVBAR (on every page) -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+    <div class="container-fluid px-3 px-md-4">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('predict') }}">
+            <span style="font-size:1.25rem;">⚡</span>
+            <span>Pulse AI</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'About' %}active{% endif %}"
+                       href="{{ url_for('about') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'Prediction' %}active{% endif %}"
+                       href="{{ url_for('predict') }}">Predict</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'Guidance' %}active{% endif %}"
+                       href="{{ url_for('guidance') }}">Guidance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_tab == 'Awareness' %}active{% endif %}"
+                       href="{{ url_for('awareness') }}">Awareness</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero-bar">
+    <div class="hero-inner">
+        <div>
+            <div class="hero-title">Practical Energy Forecast & Guidance</div>
+            <div class="hero-subtitle">
+                Simulate energy usage, experiment with what-if conditions, and discover realistic ways to reduce your bill.
+            </div>
+        </div>
+        <div class="hero-pill">
+            <span class="badge bg-success rounded-pill me-1">Live</span>
+            <span>Powered by CNN-LSTM & weather features</span>
+        </div>
+    </div>
+</header>
+
+<main class="page-wrapper">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="py-3 px-3 px-md-4 bg-transparent">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 text-muted small">
+        <div>
+            <strong>Smart Energy Forecast</strong><br>
+            Built with ❤️ using Python, Flask & deep learning.
+        </div>
+        <div class="text-md-end">
+            © 2025 Pulse AI · Short-term power demand assistant
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

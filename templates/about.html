@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block title %}About – Pulse AI{% endblock %}
+
+{% block content %}
+<style>
+    .about-hero {
+        background: radial-gradient(circle at top left, #386641 0, #F97A00 40%, #DC3C22 100%);
+        color: #fff;
+        padding: 3.5rem 0 3rem 0;
+        box-shadow: 0 22px 60px rgba(15,23,42,0.40);
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+    .about-hero h1 {
+        font-weight: 800;
+        font-size: 2.5rem;
+    }
+    .about-pill {
+        display:inline-flex;
+        align-items:center;
+        gap:.35rem;
+        padding:0.25rem .75rem;
+        border-radius:999px;
+        background:rgba(15,23,42,.65);
+        font-size:.78rem;
+        text-transform:uppercase;
+        letter-spacing:.08em;
+    }
+    .about-stat {
+        border-radius:14px;
+        background:rgba(15,23,42,0.85);
+        padding:1rem 1.25rem;
+        color:#e5e7eb;
+        box-shadow:0 14px 40px rgba(15,23,42,0.45);
+        height:100%;
+    }
+    .about-stat .label {
+        font-size:.78rem;
+        text-transform:uppercase;
+        letter-spacing:.08em;
+        color:#9ca3af;
+    }
+    .about-stat .value {
+        font-size:1.35rem;
+        font-weight:700;
+    }
+
+    .about-section {
+        margin-top:2.5rem;
+        margin-bottom:1.5rem;
+    }
+    .about-section h3 {
+        font-weight:700;
+        font-size:1.25rem;
+    }
+    .about-card {
+        border-radius:16px;
+        background:#ffffff;
+        border:1px solid rgba(15,23,42,0.06);
+        box-shadow:0 14px 40px rgba(15,23,42,0.04);
+        padding:1.5rem 1.6rem;
+        height:100%;
+    }
+
+    .chip {
+        display:inline-flex;
+        align-items:center;
+        padding:0.18rem .6rem;
+        border-radius:999px;
+        font-size:.75rem;
+        background:rgba(15,23,42,.04);
+        margin:0 .25rem .25rem 0;
+    }
+    .chip span {
+        width:.45rem;
+        height:.45rem;
+        border-radius:999px;
+        margin-right:.35rem;
+    }
+
+    .timeline {
+        position:relative;
+        padding-left:1.4rem;
+    }
+    .timeline::before {
+        content:"";
+        position:absolute;
+        left:0.4rem;
+        top:0.15rem;
+        bottom:0.15rem;
+        width:2px;
+        background:linear-gradient(to bottom,#38bdf8,#0f172a);
+        opacity:.65;
+    }
+    .timeline-step {
+        position:relative;
+        margin-bottom:1.3rem;
+    }
+    .timeline-marker {
+        position:absolute;
+        left:-.15rem;
+        top:.15rem;
+        width:.8rem;
+        height:.8rem;
+        border-radius:999px;
+        background:#0ea5e9;
+        box-shadow:0 0 0 4px rgba(56,189,248,0.25);
+    }
+    .timeline-title {
+        font-weight:600;
+        font-size:.95rem;
+    }
+    .timeline-body {
+        font-size:.85rem;
+        color:#4b5563;
+    }
+
+    @media (max-width: 768px) {
+        .about-hero {
+            padding: 2.5rem 1rem 2.25rem 1rem;
+            border-radius:0 0 16px 16px;
+        }
+        .about-hero h1 {
+            font-size:1.9rem;
+        }
+    }
+</style>
+
+<!-- Hero / Header -->
+<section class="about-hero mb-4">
+    <div class="container-fluid px-4 px-md-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <div class="about-pill mb-3">
+                    <span style="width:.4rem;height:.4rem;border-radius:999px;background:#22c55e;"></span>
+                    <span>Project Overview</span>
+                </div>
+                <h1 class="mb-2">Pulse AI – Short-Term Household Power Forecasting</h1>
+                <p class="mb-3" style="max-width:40rem;font-size:.95rem;color:rgba(249,250,251,0.92);">
+                    Pulse AI is a CNN-LSTM powered web app that predicts household <strong>power demand for the
+                    next 5-minute interval</strong> using recent consumption history and live-like weather signals.
+                    It’s designed to feel like a “what-if” lab for your electricity usage.
+                </p>
+                <p class="mb-0" style="font-size:.9rem;color:rgba(226,232,240,0.9);">
+                    The backend model is implemented with TensorFlow / Keras and wrapped in a Flask API,
+                    while the UI recreates the interactive experience of the original Streamlit prototype.
+                </p>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="about-stat">
+                            <div class="label">Prediction Horizon</div>
+                            <div class="value">Next 5 min</div>
+                            <div class="small text-secondary mt-1">
+                                Forecasts the immediate next time-step of demand.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat">
+                            <div class="label">Look-back Window</div>
+                            <div class="value">30 steps</div>
+                            <div class="small text-secondary mt-1">
+                                Last 30 × 5-minute records = 2.5 hours of history.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat">
+                            <div class="label">Core Features</div>
+                            <div class="value">7 Signals</div>
+                            <div class="small text-secondary mt-1">
+                                Power, temp, dew point, humidity, wind direction, wind speed, pressure.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="about-stat">
+                            <div class="label">Model Type</div>
+                            <div class="value">CNN-LSTM</div>
+                            <div class="small text-secondary mt-1">
+                                Convolutional feature extractor + stacked LSTM sequence learner.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>
+
+<div class="container-fluid px-4 px-md-5 pb-5">
+
+    <!-- Project Summary + Tech Stack -->
+    <div class="row g-4 about-section">
+        <div class="col-lg-8">
+            <div class="about-card">
+                <h3 class="mb-2">Project Summary</h3>
+                <p class="text-muted mb-3" style="font-size:.93rem;">
+                    The goal of this project is to build a practical, web-ready energy forecasting tool that helps
+                    users <strong>understand and simulate</strong> how weather and recent usage affect short-term power
+                    demand. Instead of long-term yearly forecasts, Pulse AI focuses on the next 5-minute step –
+                    ideal for demand response, smart-home automation, and “what-if” analysis.
+                </p>
+                <ul class="mb-0 text-muted" style="font-size:.9rem;">
+                    <li>Uses a <strong>CNN-LSTM time-series model</strong> trained on real-world household demand data.</li>
+                    <li>Works on a rolling input window of <strong>30 recent time steps</strong> (2.5 hours).</li>
+                    <li>Takes into account <strong>both consumption history and weather context</strong>.</li>
+                    <li>Deployed as a Flask web app: upload CSV → adjust environment → get prediction & charts.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="about-card">
+                <h3 class="mb-2">Tech Stack</h3>
+                <p class="text-muted" style="font-size:.9rem;">Key technologies used in the project:</p>
+                <div>
+                    <div class="chip"><span style="background:#0ea5e9;"></span>Python 3.x</div>
+                    <div class="chip"><span style="background:#10b981;"></span>TensorFlow / Keras</div>
+                    <div class="chip"><span style="background:#6366f1;"></span>CNN-LSTM</div>
+                    <div class="chip"><span style="background:#f97316;"></span>Pandas & NumPy</div>
+                    <div class="chip"><span style="background:#0f766e;"></span>scikit-learn Scalers</div>
+                    <div class="chip"><span style="background:#3b82f6;"></span>Flask API</div>
+                    <div class="chip"><span style="background:#111827;"></span>Bootstrap 5 UI</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset Section -->
+    <div class="about-section">
+        <div class="about-card">
+            <h3 class="mb-2">Dataset Used</h3>
+            <p class="text-muted mb-3" style="font-size:.93rem;">
+                The model is trained on a combined <strong>power demand + weather</strong> dataset at
+                <strong>5-minute resolution</strong>, covering multiple years of data:
+            </p>
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="bg-light rounded-3 p-3 h-100 border border-dashed" style="border-style:dashed;">
+                        <div class="small text-uppercase text-muted mb-1">Source File (example)</div>
+                        <div class="fw-semibold mb-2">powerdemand_5min_2021_to_2024_with_weather.csv</div>
+                        <ul class="text-muted mb-0" style="font-size:.9rem;">
+                            <li>Time step: <strong>5 minutes</strong> per row.</li>
+                            <li>Target column: <strong>Power demand</strong> (kW).</li>
+                            <li>Weather columns: temp, dew point, humidity, wind direction, wind speed, pressure.</li>
+                            <li>Missing values handled with cleaning + interpolation.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="bg-white border rounded-3 p-3 h-100">
+                                <div class="small text-muted text-uppercase mb-1">Feature Set</div>
+                                <ul class="text-muted mb-0" style="font-size:.9rem;">
+                                    <li><code>Power demand</code> (previous 30 steps)</li>
+                                    <li><code>temp</code> – ambient temperature</li>
+                                    <li><code>dwpt</code> – dew point</li>
+                                    <li><code>rhum</code> – relative humidity</li>
+                                    <li><code>wdir</code> – wind direction</li>
+                                    <li><code>wspd</code> – wind speed</li>
+                                    <li><code>pres</code> – air pressure</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-white border rounded-3 p-3 h-100">
+                                <div class="small text-muted text-uppercase mb-1">Pre-processing Highlights</div>
+                                <ul class="text-muted mb-0" style="font-size:.9rem;">
+                                    <li>Resampled / aligned to a consistent 5-minute grid.</li>
+                                    <li>Normalised inputs with <strong>StandardScaler</strong> (stored as
+                                        <code>scaler_features.pkl</code>).</li>
+                                    <li>Target (Power demand) scaled separately using
+                                        <code>scaler_target.pkl</code>.
+                                    </li>
+                                    <li>Sliding window generator builds 30-step sequences for training.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Methodology / Pipeline -->
+    <div class="about-section">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="about-card h-100">
+                    <h3 class="mb-2">Model Architecture & Methodology</h3>
+                    <p class="text-muted mb-3" style="font-size:.93rem;">
+                        Pulse AI uses a hybrid <strong>CNN-LSTM</strong> architecture – convolutional layers
+                        extract short-range temporal patterns, while LSTM layers learn longer-range dynamics in
+                        the demand + weather sequence.
+                    </p>
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-title">1. Sequence Construction</div>
+                            <div class="timeline-body">
+                                For each time step, we build a window of the last
+                                <strong>30 rows × 7 features</strong>, shaped as <code>(30, 7)</code>.
+                            </div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-title">2. CNN Feature Extraction</div>
+                            <div class="timeline-body">
+                                1D convolution layers scan across the 30-step window, learning local patterns
+                                such as ramps, spikes, and short bursts in demand.
+                            </div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-title">3. LSTM Temporal Modelling</div>
+                            <div class="timeline-body">
+                                Stacked LSTMs process the extracted sequences to model how demand evolves over
+                                time in response to weather and recent history.
+                            </div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-title">4. Dense Output Layer</div>
+                            <div class="timeline-body">
+                                The final dense layers output a single value – the predicted power demand for
+                                the <strong>next 5-minute interval</strong>, which is then inverse-scaled.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="about-card h-100">
+                    <h3 class="mb-2">Web Application Flow</h3>
+                    <p class="text-muted mb-3" style="font-size:.93rem;">
+                        The Flask application wraps the trained model (<code>power_model.keras</code>) and exposes
+                        it to the web UI for interactive experiments:
+                    </p>
+                    <ol class="text-muted mb-3" style="font-size:.9rem;">
+                        <li><strong>Upload CSV:</strong> User uploads a 5-minute CSV with at least 30 rows
+                            and the 7 required columns.
+                        </li>
+                        <li><strong>Auto-windowing:</strong> Backend extracts the latest 30-step window and
+                            applies the same scaling used during training.
+                        </li>
+                        <li><strong>What-if controls:</strong> UI lets the user tweak weather values for the
+                            last row (keeping historical power demand from the file).
+                        </li>
+                        <li><strong>CNN-LSTM prediction:</strong> Flask API passes the modified window to the
+                            model and returns a predicted power value.
+                        </li>
+                        <li><strong>Visualisation:</strong> The front-end displays charts showing historical
+                            demand plus the new predicted point.
+                        </li>
+                    </ol>
+
+                    <div class="bg-light rounded-3 p-3 small">
+                        <div class="fw-semibold mb-1">Limitations & Future Work</div>
+                        <ul class="mb-0">
+                            <li>Current horizon is only one step ahead (5 minutes).</li>
+                            <li>No direct integration yet with live smart-meter or weather APIs.</li>
+                            <li>Future versions could support multi-step forecasting and user profiles
+                                for household-specific tuning.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

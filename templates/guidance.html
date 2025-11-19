@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+
+{% block title %}Guidance – Pulse AI{% endblock %}
+
+{% block extra_head %}
+<style>
+    .guidance-section-title {
+        font-size: 1.45rem;
+        font-weight: 700;
+    }
+
+    .saving-amount {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #16a34a;
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: .78rem;
+        font-weight: 600;
+    }
+
+    .kpi-badge {
+        font-size: .75rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .season-card {
+        border-radius: 16px;
+        padding: 18px 18px 16px;
+        background: #0f172a;
+        color: #e5e7eb;
+        position: relative;
+        overflow: hidden;
+        min-height: 210px;
+    }
+    .season-card.summer {
+        background: radial-gradient(circle at 0 0, #fed7aa 0, #f97316 35%, #0f172a 90%);
+    }
+    .season-card.winter {
+        background: radial-gradient(circle at 100% 0, #bfdbfe 0, #1d4ed8 35%, #020617 90%);
+    }
+    .season-icon {
+        font-size: 2.1rem;
+    }
+    .season-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .season-card ul {
+        margin-bottom: 0;
+        font-size: .9rem;
+    }
+
+    @media (max-width: 768px) {
+        .saving-amount {
+            font-size: 1.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="pulse-card mb-4">
+    <div class="pulse-card-header pb-2">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <div class="guidance-section-title">
+                    💡 Smart Energy Guidance
+                </div>
+                <p class="mb-0 muted">
+                    Use these interactive references to understand how everyday choices can change your bill.
+                    Values shown here are <strong>illustrative  numbers</strong>, not linked to a real DISCOM.
+                </p>
+            </div>
+            <div class="chip">
+                <span class="badge bg-success rounded-pill"></span>
+                UX prototype – client-side only
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 1. Personalized Savings Calculator -->
+<div class="pulse-card mb-4">
+    <div class="pulse-card-header">
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill kpi-badge">
+                1 · Personalized Savings
+            </span>
+        </div>
+        <h5 class="fw-semibold mb-1">Personalized Savings Calculator</h5>
+        <p class="mb-0 muted">
+            Enter your monthly bill and usage to explore <strong>potential savings</strong>.
+            The result is computed in the browser to mimic an AI energy coach.
+        </p>
+    </div>
+    <div class="pulse-card-body">
+        <form id="savings-form">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label small text-uppercase text-muted mb-1">Monthly bill (₹)</label>
+                    <input id="billInput" type="number" min="0" class="form-control" value="1500">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small text-uppercase text-muted mb-1">Monthly usage (kWh)</label>
+                    <input id="usageInput" type="number" min="0" class="form-control" value="230">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small text-uppercase text-muted mb-1">State</label>
+                    <select id="stateInput" class="form-select">
+                        <option value="MH" selected>Maharashtra</option>
+                        <option value="DL">Delhi</option>
+                        <option value="TN">Tamil Nadu</option>
+                        <option value="KA">Karnataka</option>
+                        <option value="GJ">Gujarat</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small text-uppercase text-muted mb-1">Key appliances</label>
+                    <input id="applianceInput" type="text" class="form-control"
+                           placeholder="AC, Fridge, Geyser">
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+                <button type="button" class="btn btn-primary px-4" id="estimateBtn">
+                    Estimate Savings
+                </button>
+                <span class="small text-muted">
+                    Button runs a quick <strong>on-page</strong> estimate – data is not stored or sent.
+                </span>
+            </div>
+        </form>
+
+        <hr class="my-4">
+
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <div class="h-100 rounded-3 border p-3 bg-light">
+                    <div class="text-uppercase small text-muted mb-1">Estimated monthly savings*</div>
+                    <div class="saving-amount">
+                        ₹ <span id="savingsValue">450</span>
+                    </div>
+                    <div class="small muted mt-1">
+                        *Illustrative estimate based on your inputs – tweak bill / usage to see impact.
+                    </div>
+                    <div class="mt-3 small">
+                        Potential reduction:
+                        <span class="fw-semibold" id="percentValue">30%</span> of your current bill.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="h-100 rounded-3 border p-3">
+                    <div class="text-uppercase small text-muted mb-2">Appliance breakdown</div>
+                    <ul class="small mb-0" id="applianceBreakdown">
+                        <li>AC / Cooling: <strong>40%</strong> of bill</li>
+                        <li>Refrigerator: <strong>18%</strong></li>
+                        <li>Water heater / Geyser: <strong>15%</strong></li>
+                        <li>Lighting &amp; fans: <strong>12%</strong></li>
+                        <li>Other devices &amp; standby: <strong>15%</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="h-100 rounded-3 border p-3">
+                    <div class="text-uppercase small text-muted mb-2">Suggestions</div>
+                    <ul class="small mb-0" id="aiTips">
+                        <li>Increase AC set-point from <strong>22°C → 25°C</strong>.</li>
+                        <li>Shift washing machine / dishwasher to <strong>off-peak hours</strong>.</li>
+                        <li>Replace 3 old bulbs with <strong>LED lamps</strong>.</li>
+                        <li>Turn off router / TV box during long idle periods.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. State-wise Tariff Comparison -->
+<div class="pulse-card mb-4">
+    <div class="pulse-card-header">
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-info-subtle text-info-emphasis rounded-pill kpi-badge">
+                2 · Tariff Explorer
+            </span>
+        </div>
+        <h5 class="fw-semibold mb-1">State-wise Electricity Tariff </h5>
+        <p class="mb-0 muted">
+         <strong>TOU (Time-of-Use)</strong> tariff dashboard.
+        </p>
+    </div>
+    <div class="pulse-card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small text-uppercase text-muted mb-1">Select your state</label>
+                <select id="tariffState" class="form-select">
+                    <option value="MH" selected>Maharashtra (demo)</option>
+                    <option value="DL">Delhi</option>
+                    <option value="TN">Tamil Nadu</option>
+                    <option value="KA">Karnataka</option>
+                    <option value="GJ">Gujarat</option>
+                </select>
+            </div>
+            <div class="col-md-8">
+                <div class="alert alert-info mb-0 small">
+                    <strong>Idea:</strong> in a live product this widget would pull actual DISCOM tariffs,
+                    slab-wise rates and TOU windows for your city.
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-4">
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 h-100 bg-light" id="tariffSnapshot">
+                    <div class="text-uppercase small text-muted mb-1">Tariff snapshot</div>
+                    <ul class="small mb-0">
+                        <li>Avg. residential rate: <strong>₹ 7.00 / kWh</strong></li>
+                        <li>Peak hours: <strong>6 PM – 11 PM</strong></li>
+                        <li>Off-peak: <strong>11 PM – 6 AM</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 h-100" id="usageWindow">
+                    <div class="text-uppercase small text-muted mb-1">Suggested usage window</div>
+                    <ul class="small mb-0">
+                        <li>Run washing machine after <strong>10:30 PM</strong>.</li>
+                        <li>Set geyser timer to early morning.</li>
+                        <li>Limit AC and heavy loads during <strong>7–10 PM</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded-3 p-3 h-100" id="schemeInfo">
+                    <div class="text-uppercase small text-muted mb-1">Govt schemes</div>
+                    <ul class="small mb-0">
+                        <li>Rooftop solar subsidy – <strong>PM-Surya Ghar</strong>.</li>
+                        <li>State rebate for LED / efficient appliance adoption.</li>
+                        <li>Optional TOU tariffs for homes with smart meters.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Seasonal Tips -->
+<div class="pulse-card">
+    <div class="pulse-card-header">
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill kpi-badge">
+                3 · Seasonal Playbook
+            </span>
+        </div>
+        <h5 class="fw-semibold mb-1">Seasonal Tips – Summer &amp; Winter Modes</h5>
+        <p class="mb-0 muted">
+            Here are the <strong>Summer</strong> and <strong>Winter</strong> playbooks.
+        </p>
+    </div>
+    <div class="pulse-card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="season-card summer">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <div class="season-title">☀ Summer Mode</div>
+                            <div class="small">Cool smarter, not harder.</div>
+                        </div>
+                        <div class="season-icon">🌞</div>
+                    </div>
+                    <ul>
+                        <li>Set AC between <strong>24–26°C</strong> instead of 20–22°C.</li>
+                        <li>Use ceiling fans to support AC and allow a higher set-point.</li>
+                        <li>Close curtains during peak afternoon heat to reduce solar gain.</li>
+                        <li>Avoid running ovens / heavy cooking during hottest hours.</li>
+                        <li>Clean AC filters every <strong>2–3 months</strong> for better efficiency.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="season-card winter">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <div class="season-title">❄ Winter Mode</div>
+                            <div class="small">Stay warm with minimal wastage.</div>
+                        </div>
+                        <div class="season-icon">🌨️</div>
+                    </div>
+                    <ul>
+                        <li>Set water heater to around <strong>50°C</strong>, not max.</li>
+                        <li>Use sunlight for natural heating – open curtains in the day.</li>
+                        <li>Seal gaps around windows / doors to cut heat loss.</li>
+                        <li>Use portable heaters only in occupied rooms.</li>
+                        <li>Switch off the geyser after use instead of leaving it on standby.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // -------- Savings calculator demo ----------
+    function updateSavings() {
+        const bill = parseFloat(document.getElementById('billInput').value || '0');
+        const usage = parseFloat(document.getElementById('usageInput').value || '0');
+
+        // very simple heuristic: potential savings = 25–35% depending on usage level
+        let percent = 0.30;
+        if (usage < 150) percent = 0.22;
+        else if (usage > 400) percent = 0.35;
+
+        const estimated = Math.round(bill * percent);
+
+        document.getElementById('savingsValue').textContent = estimated.toString();
+        document.getElementById('percentValue').textContent = Math.round(percent * 100) + "%";
+    }
+
+    document.getElementById('estimateBtn').addEventListener('click', updateSavings);
+
+    // -------- Tariff demo data ----------
+    const tariffPresets = {
+        "MH": {
+            rate: "₹ 7.00 / kWh",
+            peak: "6 PM – 11 PM",
+            off: "11 PM – 6 AM"
+        },
+        "DL": {
+            rate: "₹ 6.20 / kWh",
+            peak: "5 PM – 10 PM",
+            off: "10 PM – 5 AM"
+        },
+        "TN": {
+            rate: "₹ 5.80 / kWh",
+            peak: "7 PM – 11 PM",
+            off: "11 PM – 6 AM"
+        },
+        "KA": {
+            rate: "₹ 6.50 / kWh",
+            peak: "6 PM – 10 PM",
+            off: "10 PM – 6 AM"
+        },
+        "GJ": {
+            rate: "₹ 6.90 / kWh",
+            peak: "6 PM – 11 PM",
+            off: "11 PM – 7 AM"
+        }
+    };
+
+    document.getElementById('tariffState').addEventListener('change', function () {
+        const preset = tariffPresets[this.value] || tariffPresets["MH"];
+        const snap = document.getElementById('tariffSnapshot').querySelector('ul');
+        snap.innerHTML = `
+            <li>Avg. residential rate: <strong>${preset.rate}</strong></li>
+            <li>Peak hours: <strong>${preset.peak}</strong></li>
+            <li>Off-peak: <strong>${preset.off}</strong></li>
+        `;
+    });
+</script>
+{% endblock %}

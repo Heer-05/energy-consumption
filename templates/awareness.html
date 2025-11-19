@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}Awareness – Pulse AI{% endblock %}
+
+{% block content %}
+<div class="awareness-page bg-light" style="min-height: 100vh;">
+
+  <!-- Hero / Banner -->
+  <section class="py-4 py-md-5 border-bottom bg-white">
+    <div class="container-fluid px-3 px-md-5">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h1 class="fw-bold mb-2">
+            💡 Energy Awareness &amp; Climate Impact
+          </h1>
+          <p class="text-muted lead mb-3">
+            Every kilowatt-hour you save reduces demand on the grid, lowers carbon emissions,
+            and puts real money back into your pocket. Pulse AI helps you understand how
+            everyday actions connect to the bigger climate story.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <div class="badge bg-primary-subtle text-primary border border-primary rounded-pill px-3 py-2">
+              ⚡ Short-term demand + weather
+            </div>
+            <div class="badge bg-success-subtle text-success border border-success rounded-pill px-3 py-2">
+              🌍 Lower CO₂ footprint
+            </div>
+            <div class="badge bg-warning-subtle text-warning border border-warning rounded-pill px-3 py-2">
+              🧠 Data-driven decisions
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-2">Why this page matters</h5>
+              <p class="text-muted small mb-3">
+                This awareness panel is designed as a quick reference “energy literacy” hub.
+                Use it during presentations or demos to explain how forecasting, policy and
+                household behaviour all link together.
+              </p>
+              <ul class="small mb-0">
+                <li>Connect model predictions to real-world impact.</li>
+                <li>Highlight Indian policy context (PM-Surya Ghar, BEE labels, TOU tariffs).</li>
+                <li>Share clear, actionable steps for families and small businesses.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact snapshot cards -->
+  <section class="py-4 py-md-5">
+    <div class="container-fluid px-3 px-md-5">
+      <div class="row g-3 g-md-4">
+
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center me-2"
+                      style="width:32px;height:32px;">
+                  ⚡
+                </span>
+                <h6 class="mb-0 fw-semibold">Electricity &amp; CO₂</h6>
+              </div>
+              <p class="small text-muted mb-2">
+                In many regions, 1 kWh of grid electricity can emit <b>~0.7 kg of CO₂</b>.
+                Cutting daily usage by just 2 kWh saves ~500 kg CO₂ per year.
+              </p>
+              <p class="small mb-0">
+                <span class="badge bg-primary-subtle text-primary">Idea:</span>
+                Link your forecast to a “CO₂ saved” metric for users.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center me-2"
+                      style="width:32px;height:32px;">
+                  🏠
+                </span>
+                <h6 class="mb-0 fw-semibold">Household Level</h6>
+              </div>
+              <p class="small text-muted mb-2">
+                50–60% of a typical urban bill comes from cooling, heating, and kitchen
+                appliances. Small behaviour changes here have the largest impact.
+              </p>
+              <p class="small mb-0">
+                <span class="badge bg-success-subtle text-success">Tip:</span>
+                Use Pulse AI to simulate “what if AC is run 1 hour less daily?”
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <span class="rounded-circle bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center me-2"
+                      style="width:32px;height:32px;">
+                  🇮🇳
+                </span>
+                <h6 class="mb-0 fw-semibold">India’s Energy Transition</h6>
+              </div>
+              <p class="small text-muted mb-2">
+                Rooftop solar, star-rated appliances and smart meters are transforming how
+                households interact with the grid.
+              </p>
+              <p class="small mb-0">
+                <span class="badge bg-warning-subtle text-warning">Context:</span>
+                Awareness bridges policy schemes and daily decisions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Policy & initiative spotlight -->
+  <section class="py-4 py-md-5 bg-white border-top border-bottom">
+    <div class="container-fluid px-3 px-md-5">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold mb-2 mb-md-0">Policy &amp; Initiative Spotlight (India)</h3>
+        <span class="badge bg-primary text-white">For awareness / presentation use</span>
+      </div>
+
+      <div class="row g-3 g-md-4">
+        <!-- PM Surya Ghar -->
+        <div class="col-lg-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-1">☀ PM-Surya Ghar: Muft Bijli Yojana</h5>
+              <p class="small text-muted mb-2">
+                National mission to promote rooftop solar and provide up to
+                <b>300 units of free electricity</b> per month for eligible households.
+              </p>
+              <ul class="small mb-0">
+                <li>Targets <b>1 crore+</b> households with rooftop solar.</li>
+                <li>Up-front subsidies deposited directly to consumer’s bank account.</li>
+                <li>Helps shift homes from bill-only mindset to prosumer mindset.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEE Star Rating -->
+        <div class="col-lg-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-1">⭐ BEE Star Ratings</h5>
+              <p class="small text-muted mb-2">
+                The Bureau of Energy Efficiency labels appliances from 1–5 stars so
+                consumers can quickly see how efficient a product is.
+              </p>
+              <ul class="small mb-0">
+                <li>Mandatory for ACs, refrigerators, TVs, geysers &amp; more.</li>
+                <li>Higher-star products can cut usage by 20–40% over old models.</li>
+                <li>Great talking point when explaining “pay more now, save later”.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOU / Smart Meter -->
+        <div class="col-lg-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-1">⏱ Time-of-Use (TOU) &amp; Smart Meters</h5>
+              <p class="small text-muted mb-2">
+                With smart meters, utilities can charge different prices for peak and
+                off-peak hours, encouraging people to shift flexible loads.
+              </p>
+              <ul class="small mb-0">
+                <li>Cheaper rates late night / early morning.</li>
+                <li>Ideal for washers, dishwashers, EV charging.</li>
+                <li>Future Pulse AI versions can recommend best usage windows.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Behaviour & habits section -->
+  <section class="py-4 py-md-5">
+    <div class="container-fluid px-3 px-md-5">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <h3 class="fw-bold mb-2">How daily habits shape your energy story</h3>
+          <p class="text-muted small mb-3">
+            Think of your home as a small power plant: every device you turn on creates
+            demand that the grid must supply. Pulse AI’s short-term predictions help you
+            see this demand in real time and experiment with “what-if” scenarios.
+          </p>
+
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <div class="border rounded-3 p-3 h-100 bg-white shadow-sm">
+                <h6 class="fw-semibold mb-1">🏠 Inside the home</h6>
+                <ul class="small mb-0">
+                  <li>Right-size AC temperature instead of over-cooling.</li>
+                  <li>Use task lighting instead of lighting entire rooms.</li>
+                  <li>Prefer induction / pressure cooking to reduce kitchen time.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="border rounded-3 p-3 h-100 bg-white shadow-sm">
+                <h6 class="fw-semibold mb-1">📅 Across the week</h6>
+                <ul class="small mb-0">
+                  <li>Batch laundry &amp; dishwashing into off-peak windows.</li>
+                  <li>Schedule heavy usage (iron, heater) away from peak 7–10 PM.</li>
+                  <li>Use timers &amp; smart plugs to avoid overnight standby loads.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quick actions card -->
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-semibold mb-2">Quick actions to start this week</h5>
+              <p class="small text-muted mb-3">
+                Use these as a ready-made checklist during demos or training sessions.
+              </p>
+              <ol class="small mb-3 ps-3">
+                <li>Note down yesterday’s kWh from your bill or smart meter.</li>
+                <li>Use Pulse AI to simulate <b>+2°C on the AC</b> and 1 hour less usage.</li>
+                <li>Pick one “heavy” appliance and shift it to off-peak time.</li>
+                <li>Replace at least one old bulb with an LED this week.</li>
+                <li>Share your learnings with your family or neighbours.</li>
+              </ol>
+              <div class="mt-auto">
+                <div class="alert alert-success small mb-0">
+                  🌱 <b>Micro-goal:</b> Aim for a 5–10% reduction in next month’s bill –
+                  not by sacrificing comfort, but by making timing &amp; efficiency smarter.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ / myth vs fact -->
+  <section class="py-4 py-md-5 bg-white border-top">
+    <div class="container-fluid px-3 px-md-5">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h3 class="fw-bold mb-2">Common myths about electricity usage</h3>
+          <p class="text-muted small mb-3">
+            These short myth-vs-fact pairs are handy talking points when explaining
+            energy awareness to non-technical audiences.
+          </p>
+
+          <div class="accordion" id="awarenessAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mythOne">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                  “Turning lights on and off wastes more power than leaving them on.”
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse"
+                   data-bs-parent="#awarenessAccordion">
+                <div class="accordion-body small">
+                  <b>Fact:</b> For LEDs and CFLs, it is almost always better to switch
+                  them off when not needed. The tiny inrush current is negligible
+                  compared to leaving them on for minutes or hours.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mythTwo">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                  “Phone and laptop chargers don’t matter – they use almost nothing.”
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse"
+                   data-bs-parent="#awarenessAccordion">
+                <div class="accordion-body small">
+                  <b>Fact:</b> Individually small, but together with TV boxes,
+                  speakers and routers, standby loads can add up to
+                  <b>5–10% of your bill</b>. Smart strips or scheduled turn-off
+                  can make a visible difference.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mythThree">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                  “Energy efficiency always means less comfort.”
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse"
+                   data-bs-parent="#awarenessAccordion">
+                <div class="accordion-body small">
+                  <b>Fact:</b> Most savings come from timing, insulation, and smarter
+                  controls – not from “suffering in the dark”. The goal is
+                  <b>same comfort, less waste</b>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Closing message -->
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-semibold mb-2">How Awareness Ties Back to Pulse AI</h5>
+              <p class="small text-muted mb-3">
+                The prediction engine is one piece of the puzzle. Awareness turns those
+                numbers into <b>better decisions</b>. Use this page alongside the
+                Prediction and Guidance tabs when explaining your project to recruiters,
+                mentors or stakeholders.
+              </p>
+              <ul class="small mb-3">
+                <li>Show that the model isn’t just technical – it drives real outcomes.</li>
+                <li>Connect household actions to national-level energy goals.</li>
+                <li>Position Pulse AI as an educational &amp; advisory companion.</li>
+              </ul>
+              <div class="mt-auto">
+                <div class="alert alert-primary small mb-0">
+                  🔍 <b>Demo tip:</b> Run a prediction on the Predict page, then switch to
+                  Awareness and explain <i>why</i> reducing the predicted peak matters –
+                  in terms of climate, grid stability and family budgets.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
