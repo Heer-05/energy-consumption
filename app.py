@@ -21,6 +21,7 @@ FEATURE_COLS = ["Power demand", "temp", "dwpt", "rhum", "wdir", "wspd", "pres"]
 
 last_prediction = None
 
+
 # -------------------------------------------------------------
 # Load model & scalers
 # -------------------------------------------------------------
